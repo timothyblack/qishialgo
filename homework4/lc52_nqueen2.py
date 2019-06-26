@@ -69,5 +69,4 @@ class Solution:
             #if c + r == row + col or c - r == col - row:    
             if abs(c - col) == abs(r - row):     #
                 return False
-                return False
         return True 
