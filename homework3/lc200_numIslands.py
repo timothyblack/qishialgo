@@ -76,8 +76,7 @@ class Solution:
                 visited.add((nx, ny)) 
      
 #DFS
-        
-from collections import deque
+         
 class Solution:
     dirs = [(0, 1),(0, -1),(-1, 0), (1, 0)]
     
