@@ -1,31 +1,4 @@
 """
-https://www.lintcode.com/problem/total-occurrence-of-target/description
-462. Total Occurrence of Target
-中文English
-Given a target number and an integer array sorted in ascending order. Find the total number of occurrences of target in the array.
-
-Example
-Example1:
-
-Input: [1, 3, 3, 4, 5] and target = 3,
-Output: 2.
-Example2:
-
-Input: [2, 2, 3, 4, 6] and target = 4,
-Output: 1.
-Example3:
-
-Input: [1, 2, 3, 4, 5] and target = 6,
-Output: 0.
-Challenge
-Time complexity in O(logn)
-
-1, find the first position: if mid<target: start = mid
-2. find the last position: if mid<=target: start = mid
-3. innitialize  pos to -1
-相似题:
-find the first position
-find the last position
 """
 class Solution:
     """
@@ -84,10 +57,4 @@ class Solution:
 if __name__ == "__main__":
 
     A, t = [1, 3, 3, 4, 5], 3
-    assert(Solution().totalOccurrence(A, t)==2), "wrong"
-    A, t = [2, 2, 3, 4, 6], 4
-    assert(Solution().totalOccurrence(A, t)==1), "wrong"
-    A, t = [1, 2, 3, 4, 5], 6
-    assert(Solution().totalOccurrence(A, t)==0), "wrong"
-    A, t = [1,1,1,1,1,1,1,1,1,1,1], 1
-    assert(Solution().totalOccurrence(A, t)==11), "wrong"
+    print(Solution().totalOccurrence(A, t))

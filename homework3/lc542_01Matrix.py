@@ -69,7 +69,50 @@ class Solution:
                 que.append((nx, ny)) 
                 matrix[nx][ny]  = matrix[x][y] + 1 
         return matrix 
-        
+
+"""
+https://www.lintcode.com/problem/01-matrix/description  
+
+BFS + distance for extra storage
+
+"""
+
+class Solution:
+    """
+    @param matrix: a 0-1 matrix
+    @return: return a matrix
+    """
+    def updateMatrix(self, matrix):
+        if not matrix: 
+            return matrix 
+        M = len(matrix)
+        if M <= 0:
+            return matrix 
+        N = len(matrix[0])
+        if N <= 0:
+            return matrix 
+        from collections import deque 
+        INT_MAX = 2**31 
+        q = deque()
+        distance = [[0] * N for _ in range(M)] 
+        dirs = [(0, 1),(0, -1),(-1, 0),(1, 0) ]
+        #print(distance) 
+        for i in range(M):
+            for j in range(N):
+                if matrix[i][j] == 0:
+                    q.append((i, j))
+                else:
+                    distance[i][j] = INT_MAX 
+        while q:
+            x, y = q.popleft() 
+            for dx, dy in dirs:
+                nx, ny = x + dx, y + dy
+                if nx < 0 or nx >= M or ny < 0 or ny >= N: continue
+                if distance[nx][ny] <= distance[x][y] + 1: continue
+                distance[nx][ny] = distance[x][y] + 1 
+                q.append((nx, ny)) 
+        return distance
+            
 
 
 if __name__ == "__main__":
