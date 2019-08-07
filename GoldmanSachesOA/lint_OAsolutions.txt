@@ -1,0 +1,446 @@
+class Solution:
+    """
+    @param str: str: the given string
+    @return: char: the first unique character in a given string
+    """
+    def firstUniqChar(self, str):
+        """"
+        count_list = [0]  * 256  #  256 to include all chars  
+        
+        for ch in str:
+            count_list[ord(ch)] += 1 
+        
+        for ch in str:
+            if count_list[ord(ch)] == 1:
+                return ch 
+        
+        """
+        count = collections.Counter(str) 
+        for ch in str:
+            if count[ch] == 1: 
+                return ch  
+       
+
+"""
+https://www.lintcode.com/problem/rotate-string-ii/description
+1790. Rotate String II
+中文English
+Given a string(Given in the way of char array), a right offset and a left offset, rotate the string by offset in place.(left offest represents the offset of a string to the left,right offest represents the offset of a string to the right,the total offset is calculated from the left offset and the right offset,split two strings at the total offset and swap positions)。
+
+Example
+Example 1:
+
+Input：str ="abcdefg", left = 3, right = 1
+Output："cdefgab"
+Explanation：The left offset is 3, the right offset is 1, and the total offset is left 2. Therefore, the original string moves to the left and becomes "cdefg"+ "ab".
+Example 2:
+
+Input：str="abcdefg", left = 0, right = 0
+Output："abcdefg"
+Explanation：The left offset is 0, the right offset is 0, and the total offset is 0. So the string remains unchanged.
+Example 3:
+
+Input：str = "abcdefg",left = 1, right = 2
+Output："gabcdef"
+Explanation：The left offset is 1, the right offset is 2, and the total offset is right 1. Therefore, the original string moves to the left and becomes "g" + "abcdef".
+
+"""
+class Solution:
+    """
+    @param str: An array of char
+    @param left: a left offset
+    @param right: a right offset
+    @return: return a rotate string
+    """
+    """
+https://www.jiuzhang.com/solution/rotate-string-ii/#tag-highlight-lang-python	
+    考点：
+
+字符串处理。
+题解：
+
+利用左偏移量减去右偏移量得到offset。
+如果总偏移量为正数，说明字符串向左移动，A表示offset左边的字符串，B表示offset右边的字符串，返回A + B
+如果总偏移量为负数，说明字符串向右移动，A表示从右边算起offset位置处左边的字符串，B表示其右边的字符串，返回B + A
+返回 B + A，实质是两段子串的位置交换
+    """
+    def RotateString2(self, str, left, right):
+        # str ="abcdefg", left = 3, right = 1  
+        offset = left - right
+        n = len(str)
+        flag = 1 if (offset >= 0) else -1 
+        offset = abs(offset) % n
+        
+        print(offset)
+        if flag == 1: 
+            A = str[:offset ] 
+            B = str[offset:]
+        else:
+            A = str[:n - offset]     # offset -1  abcdef    0: 6
+            B = str[n - offset:]      # offset -1  g          6:
+        return B + A 
+		
+"""
+https://www.lintcode.com/problem/guess-number-higher-or-lower
+662. Guess Number Higher or Lower
+中文English
+We are playing the Guess Game. The game is as follows:
+
+I pick a number from 1 to n. You have to guess which number I picked.
+
+Every time you guess wrong, I will tell you if this number is greater or less than the number you guessed.
+
+You call a pre-defined API guess(int num) which returns 3 possible results (-1, 1, or 0):
+-1 means this number is less than the number you guessed
+
+1 means this number is greater than the number you guessed
+
+0 means this number is equal to the number you guessed
+
+Example
+Example 1:
+
+Input : n = 10, I pick 4 (but you don't know)
+Output : 4
+
+"""
+"""
+The guess API is already defined for you.
+@param num, your guess
+@return -1 if my number is lower, 1 if my number is higher, otherwise return 0
+you can call Guess.guess(num)
+"""
+# binary search    l, r = 1, n    while <= r  
+# check first bad version
+
+
+class Solution:
+    # @param {int} n an integer
+    # @return {int} the number you guess
+    def guessNumber(self, n):
+        l, r= 1, n     
+        while l <= r: 
+            mid = l + (r - l) // 2  
+            res = Guess.guess(mid)  
+            if res == 0:  
+                return mid 
+            elif res == -1: 
+                r = mid - 1 
+            elif res == 1: 
+                l = mid + 1     
+        return -1 
+		
+		
+class Solution:
+    def climbStairs(self, n):
+        dp = [0 for i in range(n + 1)] 
+        print(len(dp))
+        dp[0] = dp[1] = 1 
+        for i in range(2, n + 1):
+            dp[i] = dp[i - 1] + dp[i - 2] 
+        
+        return dp[n]
+    
+    def climbStairs2(self, n):
+        a = b = 1 
+        for i in range(2, n + 1):
+            a, b = b, a + b  
+        return b
+if __name__ == "__main__":
+    print(Solution().climbStairs(6))
+    print(Solution().climbStairs2(6))
+	
+	
+class Solution:
+    """
+    @param n: An integer
+    @return: An Integer
+    """
+    def climbStairs2(self, n):
+        if n <= 1: return 1 
+        if n == 2: return 2 
+        a, b, c = 1, 1, 2      # 0, 1, 2  
+        for i in range(3, n + 1):
+            a, b, c = b, c, a + b + c 
+        
+        return c 
+
+
+"""
+https://www.lintcode.com/problem/reverse-string/description
+1283. Reverse String
+中文English
+Write a function that takes a string as input and returns the string reversed.
+
+Example
+Example 1：
+
+Input："hello"
+Output："olleh"
+Example 2：
+
+Input："hello world"
+Output："dlrow olleh"
+"""
+
+
+
+class Solution:
+    """
+    @param s: a string
+    @return: return a string
+    """
+    def reverseString(self, s):
+        # write your code here
+        # doesnt need to check empty string  
+        #  return s[::-1]
+        """
+        slist = []
+        for i in range(len(s), 0, -1):  
+            #print(s[i - 1])
+            slist.append(s[i - 1])
+        
+        return "".join(slist)
+       
+        slist = []
+        for i in range(len(s) -1, -1, -1):
+            slist.append(s[i])
+        return "".join(slist)
+        """
+        # two point swap symetric element in list of chars
+        slist = list(s) 
+        n = len(s) // 2 
+        print(len(s), n)
+        for i in range(n):
+            slist[i], slist[len(s) - 1 - i] = slist[len(s) - 1 - i], slist[i]
+        
+        return "".join(slist)
+"""
+1173. Reverse Words in a String III
+中文English
+Given a string, you need to reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
+
+Example
+Input: "Let's take LeetCode contest"
+Output: "s'teL ekat edoCteeL tsetnoc"
+Notice
+In the string, each word is separated by single space and there will not be any extra space in the string.
+"""        
+
+class Solution:
+    """
+    @param s: a string
+    @return: reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order
+    """
+    def reverseWords(self, s):
+        """
+        return " ".join(w[::-1] for w in s.split())
+        """
+        word = ""
+        answer = ""
+        for c in s:
+            if c == ' ':
+                if word != "":
+                    answer += word[::-1]
+                word = ""
+                answer += c
+            else:
+                word += c
+        if word != "":
+            answer += word[::-1]
+        return answer
+
+
+"""
+https://www.lintcode.com/problem/best-time-to-buy-and-sell-stock/description
+149. Best Time to Buy and Sell Stock
+中文English
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+If you were only permitted to complete at most one transaction (ie, buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+
+Example
+Example 1
+
+Input: [3, 2, 3, 1, 2]
+Output: 1
+Explanation: You can buy at the third day and then sell it at the 4th day. The profit is 2 - 1 = 1
+Example 2
+
+Input: [1, 2, 3, 4, 5]
+Output: 4
+Explanation: You can buy at the 0th day and then sell it at the 4th day. The profit is 5 - 1 = 4
+Example 3
+
+Input: [5, 4, 3, 2, 1]
+Output: 0
+Explanation: You can do nothing and get nothing.
+
+https://www.jiuzhang.com/solution/best-time-to-buy-and-sell-stock/
+"""
+
+public class Solution {
+    /**
+     * @param prices: Given an integer array
+     * @return: Maximum profit
+     */
+    public int maxProfit(int[] prices) {
+        // iterate from 0 to N -1 
+        if (prices == null || prices.length == 0) {
+            return 0; 
+        }
+        
+        int min = Integer.MAX_VALUE; 
+        int profit = 0; 
+        for (int i: prices) {
+            min = i < min ? i : min;  
+            profit = (i - min) > profit ? i-min : profit;
+        }
+        
+        return profit; 
+    }
+    
+}
+
+"""
+https://www.jiuzhang.com/solution/best-time-to-buy-and-sell-stock/
+"""
+class Solution:
+    """
+    @param prices: Given an integer array
+    @return: Maximum profit
+    """
+    def maxProfit(self, prices):
+        if not prices or len(prices) == 0: return 0 
+        
+        profit, min_price = 0, sys.maxsize   
+        for i in prices: 
+            min_price = min_price if min_price < i else i 
+            profit = (i - min_price) if i - min_price > profit else profit 
+        return profit 
+        
+
+"""
+https://www.lintcode.com/problem/best-time-to-buy-and-sell-stock-ii/
+150. Best Time to Buy and Sell Stock II
+中文English
+Given an array prices, which represents the price of a stock in each day.
+
+You may complete as many transactions as you like (ie, buy one and sell one share of the stock multiple times). However, you may not engage in multiple transactions at the same time (ie, if you already have the stock, you must sell it before you buy again).
+
+Design an algorithm to find the maximum profit.
+
+Example
+Example 1:
+
+Input: [2, 1, 2, 0, 1]
+Output: 2
+Explanation: 
+    1. Buy the stock on the second day at 1, and sell the stock on the third day at 2. Profit is 1.
+    2. Buy the stock on the 4th day at 1, and sell the stock on the 5th day at 2. Profit is 1.
+    Total profit is 2.
+Example 2:
+
+Input: [4, 3, 2, 1]
+Output: 0
+Explanation: No transaction, profit is 0.
+http://www.jiuzhang.com/solution/best-time-to-buy-and-sell-stock-ii/
+"""
+
+public class Solution {
+    /**
+     * @param prices: Given an integer array
+     * @return: Maximum profit
+     */
+    public int maxProfit(int[] prices) {
+        int n = prices.length; 
+        int res = 0;   
+        //  n - 1 here  becaause [i + 1] - i is calced for each i 
+        for (int i = 0; i < n - 1; i++) {
+            if (prices[i + 1] - prices[i] > 0) {
+                res += prices[i + 1] - prices[i];  
+            }
+        }
+        return res;
+    }
+}
+
+
+class Solution:
+    """
+    @param prices: Given an integer array
+    @return: Maximum profit
+    """
+    def maxProfit(self, prices):
+        if not prices or len(prices) == 0: return 0 
+        res = 0 
+        for i in range(len(prices) - 1):
+            if prices[i + 1] > prices[i]:
+                res += prices[i + 1] - prices[i]
+        return res
+		
+"""
+https://www.lintcode.com/problem/best-time-to-buy-and-sell-stock-iii/description
+151. Best Time to Buy and Sell Stock III
+中文English
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+Design an algorithm to find the maximum profit. You may complete at most two transactions.
+
+Example
+Example 1
+
+Input : [4,4,6,1,1,4,2,5]
+Output : 6
+Notice
+You may not engage in multiple transactions at the same time (ie, you must sell the stock before you buy again).
+
+https://www.jiuzhang.com/solution/best-time-to-buy-and-sell-stock-iii/  
+this is hard,  just memerize it
+
+"""
+
+public class Solution {
+    /**
+     * @param prices: Given an integer array
+     * @return: Maximum profit
+     */
+    public int maxProfit(int[] prices) {
+        int n = prices.length; 
+        if (n == 0) {
+            return 0;
+        }
+        
+        int [][] f = new int[n + 1][5 + 1]; 
+        int i, j, k;
+        // first 0 days, phase 1, max profit = 0 
+        f[0][1] = 0;
+        f[0][2] = f[0][3] = f[0][4] = f[0][5] = Integer.MIN_VALUE; 
+        
+        for (i = 1; i <= n; ++i) {
+            // 1, 3, 5 
+            for( j = 1; j <= 5; j += 2) {
+                // 
+                f[i][j] = f[i - 1][j]; 
+                if(j > 1 && i > 1 && f[i -1][j -1] != Integer.MIN_VALUE) {
+                    f[i][j] = Math.max(f[i][j], f[i - 1][j -1] + prices[i - 1]-prices[i - 2]);
+                } 
+            }
+            // 2, 4
+            for (j = 2; j <= 5; j += 2) {
+                f[i][j] = f[i - 1][j -1]; 
+                if (i > 1 && f[i -1][j] != Integer.MIN_VALUE) {
+                    f[i][j] = Math.max(f[i][j], f[i -1][j] + prices[i - 1] - prices[i - 2]); 
+                }
+                
+                if (j > 2 && i > 1 && f[i - 1][j - 2] != Integer.MIN_VALUE) {
+                    f[i][j] = Math.max(f[i][j], f[i -1][j -2] + prices[i - 1] - prices[i - 2]);
+                }
+            }
+        }
+        
+        return Math.max(Math.max(f[n][1], f[n][3]), f[n][5]); 
+    }
+}
+
+
