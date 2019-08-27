@@ -1,0 +1,45 @@
+"""
+https://www.lintcode.com/problem/the-most-frequent-word/description
+1484. The Most Frequent word
+中文English
+Give a string s which represents the content of the novel, and then give a list indicating that the words do not participate in statistics, find the most frequent word(return the one with the smallest lexicographic order if there are more than one word)
+
+Example
+Example 1:
+
+Input: s = "Jimmy has an apple, it is on the table, he like it"，excludeWords = ["a","an","the"]
+Output:"it"
+Explanation:
+"it" appears twice, the most frequently
+Example 2:
+
+Input: s = "i have a a a a"，excludeWords = ["a"]
+Output:"have"
+Explanation:
+"i" and "have" appear the same number of times, but have dictionary order is small
+Notice
+The length of s is not exceed 1000，the size of excludeWords is not exceed 20.
+
+https://leetcode.com/problems/most-common-word/discuss/123854/  
+
+https://www.jiuzhang.com/solution/the-most-frequent-word/#tag-other-lang-python
+didnt use jiuzhang code 
+"""
+import re
+class Solution:
+    """
+    @param s: a string
+    @param excludewords: a dict
+    @return: the most frequent word
+    """
+    def frequentWord(self, s, excludewords):
+        words = re.findall(r'\w+', s)  
+        print(words)
+        counter = {}
+        for w in words:
+            if w.lower() in excludewords:
+                continue 
+            counter[w] = counter.get(w, 0) + 1 
+        print(counter)
+        return sorted(counter.items(), key=lambda x: (-x[1], x[0]))[0][0]
+            

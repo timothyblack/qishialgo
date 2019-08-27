@@ -1,0 +1,71 @@
+"""
+https://www.lintcode.com/problem/subtree-with-maximum-average/description
+597. Subtree with Maximum Average
+中文English
+Given a binary tree, find the subtree with maximum average. Return the root of the subtree.
+
+Example
+Example 1
+
+Input：
+{1,-5,11,1,2,4,-2}
+Output：11
+Explanation:
+The tree is look like this:
+     1
+   /   \
+ -5     11
+ / \   /  \
+1   2 4    -2 
+The average of subtree of 11 is 4.3333, is the maximun.
+Example 2
+
+Input：
+{1,-5,11}
+Output：11
+Explanation:
+     1
+   /   \
+ -5     11
+The average of subtree of 1,-5,11 is 2.333,-5,11. So the subtree of 11 is the maximun.
+Notice
+LintCode will print the subtree which root is your return node.
+It's guaranteed that there is only one subtree with maximum average.
+
+
+
+https://www.jiuzhang.com/solution/subtree-with-maximum-average/#tag-highlight-lang-python
+"""
+
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: the root of binary tree
+    @return: the root of the maximum average of subtree
+    """
+    average, node = 0, None 
+   # return node, use average to keep track of max average 
+   # dfs using helper func to calc sum 
+    def findSubtree2(self, root):
+        self.helper(root)
+        return self.node 
+    
+    # return sum and size = # of nodes
+    def helper(self, root):
+        if not root: return 0, 0 
+        left_sum, left_size = self.helper(root.left)
+        right_sum, right_size = self.helper(root.right)
+        
+        sum, size = left_sum + right_sum + root.val,  left_size + right_size + 1 
+        if self.node is None or sum * 1.0 / size > self.average: 
+            self.average = sum * 1.0 / size
+            self.node = root 
+        return sum, size 

@@ -1,0 +1,85 @@
+"""
+https://www.lintcode.com/problem/sum-of-leaf-nodes/description
+1577. Sum of leaf nodes
+中文English
+Given a binary tree, find the sum of all leaf nodes.Use O(1) space.
+
+Example
+Example 1:
+
+Input:
+{1,2,3,4,5}
+Output : 12
+
+Explanation：
+      1
+     / \
+   2   3
+  / \     
+4   5    
+Leaf nodes are nodes without children. 4+5+3 = 12
+Example 2：
+
+Input：
+{12,3,7,4,5,#,#,2}
+Output：14
+
+Explanation：
+      12
+      / \
+    3   7
+   / \     
+ 4   5    
+/
+2
+2+5+7 = 14
+Notice
+1.参考Morris 算法
+
+Morris算法使用二叉树中的叶节点的right指针来保存后面将要访问的节点的信息，当这个right指针使用完成之后，再将它置为NULL，但是在访问过程中有些节点会访问两次，所以它的空间复杂度为O(1),时间复杂度为O（n）
+中序遍历的顺序是左-中-右，即先访问左子树，再访问根节点，最后访问右子树，
+对于某个节点N，如果其左子树为空，那么就说明没有左子树，可以将这种情况视为左子树已经访问完毕，
+那么这个时候就访问根节点，再将当前节点指针指向根节点的右子树的根节点，进而访问右子树。
+如果根节点的的左子树不为空，那么就找到遍历左子树时访问的最后一个节点M(节点M的right指针一定为NULL)，
+将这个节点的right指针指向根节点，这样在访问完了根节点的左子树后，就可以根据这个right指针，来访问下面将要访问的节点。
+"""
+
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: 
+    @return: the sum of leafnode
+    """
+    def sumLeafNode(self, root):
+        # Morris algorithm
+        leafsum = 0 
+        if root is None: 
+            return leafsum 
+        cur = root
+        while cur is not None:
+            if cur.left is None:
+                if cur.right is None: 
+                    leafsum += cur.val 
+                cur = cur.right  
+            else:
+                temp = cur.left 
+                while temp.right is not None and temp.right != cur: 
+                    temp = temp.right 
+                if temp.right is None:
+                    if temp.left is None:  
+                        leafsum += temp.val 
+                
+                    temp.right = cur 
+                    cur = cur.left 
+                else:
+                    temp.right = None 
+                    cur = cur.right 
+        return leafsum     

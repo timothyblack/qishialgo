@@ -1,0 +1,67 @@
+"""
+https://www.lintcode.com/problem/k-substring-with-k-different-characters/description
+1639. K-Substring with K different characters
+中文English
+Given a string S and an integer K.
+Calculate the number of substrings of length K and containing K different characters
+
+Example
+Example 1:
+
+Input："abcabc"，k=3
+Output：3
+Explanation：
+substrings:  ["abc", "bca", "cab"]
+Example 2:
+
+Input："abacab"，k=3
+Output：2
+Explanation：
+substrings: ["bac", "cab"]
+
+
+https://www.jiuzhang.com/solution/k-substring-with-k-different-characters/#tag-highlight-lang-python
+考点：
+
+set
+字符串处理
+题解：
+
+采用字典存放每个字符出现次数，维护每个k长度子串中的信息。先从头取k个长度的子串进行判断，当前字符出现次数为0，则对当前子串的字符种类数贡献为1，已经出现过则不计入。
+然后从第k+1个字符开始，每次删除掉i-k处字符的信息，如果删除后，该字符出现次数为0，则子串中字符种类数减少。再对当前字符判断。当前字符如果出现次数为0，则对子串种类数贡献为1。
+每次判断维护的k个长度的子串的字符种类数，如果为k就存入set，最后返回set的大小。
+
+"""
+
+class Solution:
+    """
+    @param stringIn: The original string.
+    @param K: The length of substrings.
+    @return: return the count of substring of length K and exactly K distinct characters.
+    """
+    def KSubstring(self, stringIn, K):
+        if not stringIn or len(stringIn) < K: return 0 
+        hash = {}
+        s = set()
+        cnt,n = 0, len(stringIn) 
+        for i in range(K):
+            if stringIn[i] not in hash: 
+                cnt += 1 
+                hash[stringIn[i]] = 0 
+            hash[stringIn[i]] += 1 
+        
+        if cnt == K:
+            s.add(stringIn[:K]) 
+        
+        for i in range(K, n):
+            hash[stringIn[i-K]] -= 1 
+            if hash[stringIn[i-K]] == 0:
+                cnt -= 1 
+            if stringIn[i] not in hash or hash[stringIn[i]] == 0: 
+                cnt += 1 
+                hash[stringIn[i]] = 0 
+            hash[stringIn[i]] += 1 
+            if cnt == K:
+                s.add(stringIn[i-K+1:i+1]) 
+        return len(s)
+            

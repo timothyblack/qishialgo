@@ -1,0 +1,63 @@
+/*
+https://www.lintcode.com/problem/log-sorting/description?_from=ladder&&fromId=15
+https://www.jiuzhang.com/solution/log-sorting/#tag-highlight-lang-java
+
+380. Log Sorting
+Description
+中文
+English
+Given a list of string logs, in which each element representing a log. Each log can be separated into two parts by the first space. The first part is the ID of the log, while the second part is the content of the log. (The content may contain spaces as well.) The content is composed of only letters and spaces, or only numbers and spaces.
+
+Now you need to sort logs by following rules:
+
+Logs whose content is letter should be ahead of logs whose content is number.
+Logs whose content is letter should be sorted by their content in lexicographic order. And when two logs have same content, sort them by ID in lexicographic order.
+Logs whose content is number should be in their input order.
+The total number of logs will not exceed 5000
+*/
+public class Solution {
+    /**
+     * @param logs: the logs
+     * @return: the log after sorting
+     */
+    class MyComparator implements Comparator<String> {
+        public int compare(String s1, String s2) {
+            int t1 = s1.indexOf(' ');
+            int t2 = s2.indexOf(' ');
+            String ID1 = s1.substring(0, t1);
+            String ID2 = s2.substring(0, t2);
+            String body1 = s1.substring(t1);
+            String body2 = s2.substring(t2);
+            if (body1.equals(body2)) {
+                return ID1.compareTo(ID2);
+            }
+            else {
+                return body1.compareTo(body2);
+            }
+        }
+    }
+    public String[] logSort(String[] logs) {
+         List<String> list = new ArrayList<>();
+         String[] ans = new String[logs.length];
+         int idx = logs.length - 1; 
+         for (int i = logs.length -1; i >= 0; i--) {
+             int tmp = logs[i].indexOf(' ');
+             String body = logs[i].substring(tmp + 1); 
+             if (Character.isDigit(body.trim().charAt(0))) {
+                 ans[idx--] = logs[i];  
+             } else {
+                 list.add(logs[i]);
+             }
+        }
+        Collections.sort(list, new MyComparator()); 
+        
+        idx = 0;
+        for (String item: list) {
+            ans[idx++] = item; 
+        }
+        return ans; 
+         
+    }
+}
+
+

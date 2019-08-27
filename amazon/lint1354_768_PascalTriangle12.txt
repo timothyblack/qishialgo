@@ -1,0 +1,111 @@
+"""
+https://www.lintcode.com/problem/pascals-triangle-ii/description
+1354. Pascal's Triangle II
+中文English
+Given a non-negative index k where k ≤ 33, return the kth index row of the Pascal's triangle.
+
+Example
+Example1
+
+Input: 3
+Output: [1,3,3,1]
+Example2
+
+Input: 4
+Output: [1,4,6,4,1]
+Challenge
+Could you optimize your algorithm to use only O(k) extra space?
+
+Notice
+1.Note that the row index starts from 0.
+2.In Pascal's triangle, each number is the sum of the two numbers directly above it.
+ 
+https://blog.csdn.net/fuxuemingzhu/article/details/51348629
+
+"""
+# O(N!)  space same as  Yang Hui Triangle 
+class Solution:
+    """
+    @param rowIndex: a non-negative index
+    @return: the kth index row of the Pascal's triangle
+    """
+    def getRow(self, rowIndex):
+        #Note that the row index starts from 0.  for + 1 
+        res = [[1 for j in range(i + 1)] for i in range(1, rowIndex + 1)]
+        # start with 3 row,   1, 11, 121
+        for i in range(2, rowIndex + 1):
+            for j in range(1, i):
+                res[i][j] = res[i-1][j-1] + res[i-1][j] 
+        return res[-1] 
+
+#看的时候是对每一个i行，从这个行上一行的最右边的那位开始，这一项等于这项和前一项的和。再看这一项的前一项。最后遍历完成之后添加最后一位设置为1；
+#
+class Solution:
+    """
+    @param rowIndex: a non-negative index
+    @return: the kth index row of the Pascal's triangle
+    """
+    def getRow(self, rowIndex):
+        res = [1] * (rowIndex + 1) 
+        for i in range(2, rowIndex + 1):
+            for j in range(i - 1, 0, -1):  
+               
+                res[j] += res[j - 1]
+                print(i, j, res[j -1], res[j])  
+        return res 
+    """
+    def getRow(self, rowIndex):
+        #Note that the row index starts from 0.  for + 1 
+        res = [[1 for j in range(i + 1)] for i in range(1, rowIndex + 1)]
+        # start with 3 row,   1, 11, 121
+        for i in range(2, rowIndex + 1):
+            for j in range(1, i):
+                res[i][j] = res[i-1][j-1] + res[i-1][j] 
+        return res[-1] 
+    """
+
+
+"""
+https://www.lintcode.com/problem/yang-hui-triangle/description
+768. Yang Hui Triangle
+中文English
+Given an integer n, return the first n-line Yang Hui triangle.
+
+Example
+Example 1:
+
+Input : n = 4
+Output :  
+[
+ [1]
+ [1,1]
+ [1,2,1]
+ [1,3,3,1]
+]
+Notice
+1.0<=n<=20
+2.Yang Hui’s Triangle also called Pascal's triangle. --(Wikipedia)
+
+https://blog.csdn.net/fuxuemingzhu/article/details/51346488
+"""
+
+
+class Solution:
+    """
+    @param n: a Integer
+    @return: the first n-line Yang Hui's triangle
+    """
+    def calcYangHuisTriangle(self, n):
+        # In Pascal’s triangle, each number is the sum of the two numbers directly above it.
+        #使用的方法是提前构造好三角形，然后再遍历每行的中间位置是上面两行的和即可。
+        #In Pascal’s triangle, each number is the sum of the two numbers directly above it.
+        # starts with 1 for n layers hence(1, n+1), create triagle with 1s    
+        #
+        res = [[1 for j in range(i)] for i in range(1, n+1)]      
+        
+        for i in range(2, n):
+            for j in range(1, i):  
+                print(i, j)
+                 #   3, 1          2, 0  +  2,1 
+                res[i][j] = res[i-1][j -1] + res[i-1][j] 
+        return res

@@ -1,0 +1,68 @@
+"""
+https://www.lintcode.com/problem/can-reach-the-endpoint/description
+1479. Can Reach The Endpoint
+中文English
+Given a map size of m*n, 1 means space, 0 means obstacle, 9 means the endpoint. You start at (0,0) and return whether you can reach the endpoint.
+
+Example
+Example1
+
+Input: 
+[
+	[1,1,1],
+	[1,1,1],
+	[1,1,9]
+]
+Output: true
+Example2
+
+Input: 
+[
+	[1,1,1],
+	[1,0,0],
+	[1,0,9]
+]
+Output: false
+
+https://www.jiuzhang.com/solution/can-reach-the-endpoint/#tag-highlight-lang-python
+
+BFS 
+better to do coninue here, or have to deal with 0, 9 seperately
+if 0 <= nx < m and 0 <= ny < n and not vis[nx][ny]:  
+                    print((nx, ny), map[nx][ny])
+                    if map[nx][ny] == 0: continue 
+                    if map[nx][ny] == 9: return True 
+"""
+
+from collections import deque 
+class Solution:
+    """
+    @param map: the map
+    @return: can you reach the endpoint
+    """
+    def reachEndpoint(self, map):
+        if not map or len(map) == 0 or len(map[0]) == 0: 
+            return False 
+        if map[0][0] == 0: return False 
+        if map[0][0] == 9: return True
+        m, n = len(map), len(map[0])
+        
+        vis = [[False] * n for _ in range(m)]
+        dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        queue = deque([(0, 0)])  
+        while queue: 
+            x, y = queue.popleft()   
+            for dx, dy in dirs:
+                nx, ny = x + dx, y + dy   
+                # better to do coninue here, or have to deal with 0, 9 seperately
+                if 0 <= nx < m and 0 <= ny < n and not vis[nx][ny]:  
+                    print((nx, ny), map[nx][ny])
+                    if map[nx][ny] == 0: continue 
+                    if map[nx][ny] == 9: return True 
+                    queue.append((nx, ny))
+                    vis[nx][ny] = True 
+                  
+                  
+        return False
+                
+        

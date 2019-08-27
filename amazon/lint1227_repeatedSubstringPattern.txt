@@ -1,0 +1,67 @@
+"""
+1227. Repeated Substring Pattern
+中文English
+Given a non-empty string check if it can be constructed by taking a substring of it and appending multiple copies of the substring together. You may assume the given string consists of lowercase English letters only and its length will not exceed 10000.
+
+Example
+Example 1:
+
+Input: "abab"
+
+Output: True
+
+Explanation: It's the substring "ab" twice.
+Example 2:
+
+Input: "aba"
+
+Output: False
+Example 3:
+
+Input: "abcabcabcabc"
+
+Output: True
+
+Explanation: It's the substring "abc" four times. (And the substring "abcabc" twice.)
+
+"""
+"""
+python字符串有个特性，简述就是‘a’ * 3 = 'aaa'，想必这个大家都不陌生吧，笔者看到有人利用这个特性实现了这个功能。
+原理是，先提取字符串的一半，然后乘以2，看生成串和原串是否相同，相同则true，否则提取字符串三分之一，然后乘以3，以此类推。其实思路和上面大同小异，但是利用python的这个特性省去了好多麻烦，还缩短了运行时间。
+
+作者：如烟花非花
+链接：https://www.jianshu.com/p/4406bf26366e
+来源：简书
+简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
+这道题给了我们一个字符串，问其是否能拆成n个重复的子串。那么既然能拆分成多个子串，那么每个子串的长度肯定不能大于原字符串长度的一半，那么我们可以从原字符串长度的一半遍历到1，如果当前长度能被总长度整除，说明可以分成若干个子字符串，我们将这些子字符串拼接起来看跟原字符串是否相等。 如果拆完了都不相等，返回false。
+"""
+class Solution:
+    """
+    @param s: a string
+    @return: return a boolean
+    """
+   
+    def repeatedSubstringPattern(self, s):
+        if not s or len(s) <2: return False
+        n = len(s)  
+        pos = n // 2 
+        for i in range(1, pos + 1):
+            if n % pos == 0:  
+                if s == s[:pos] * (n // pos): 
+                    return True 
+        return False 
+        
+
+
+
+class Solution:
+    """
+    @param s: a string
+    @return: return a boolean
+    """
+    def repeatedSubstringPattern(self, s):
+        n = len(s)
+        for i in range(1, n//2 + 1):
+            if s == s[:i]*(n//i):
+                return True
+        return False

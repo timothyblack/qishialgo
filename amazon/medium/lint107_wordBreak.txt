@@ -1,0 +1,43 @@
+"""
+https://www.lintcode.com/problem/word-break/description
+107. Word Break
+中文English
+Given a string s and a dictionary of words dict, determine if s can be break into a space-separated sequence of one or more dictionary words.
+
+Example
+Example 1:
+	Input:  "lintcode", ["lint", "code"]
+	Output:  true
+
+Example 2:
+	Input: "a", ["a"]
+	Output:  true
+	
+
+https://www.cnblogs.com/zuoyuan/p/3760660.html   TLE 
+"""
+#https://www.jiuzhang.com/solution/word-break/#tag-highlight-lang-python
+# optimized for loop,  but need to understand it better
+
+
+class Solution:
+    """
+    @param: s: A string
+    @param: dict: A dictionary of words dict
+    @return: A boolean
+    """
+    def wordBreak(self, s, dict):
+        if len(dict) == 0: 
+            return len(s) == 0    # true if source str is empty and dict is empty 
+        
+        n = len(s)
+        f = [False] * (n + 1)   #f[i] = 前i个字符可分   true false 
+        f[0] = True  
+        maxlen = max([len(w) for w in dict])
+        for i in range(1, n + 1): 
+            for j in range(1, min(i, maxlen) + 1):
+                if not f[i - j]: continue
+                if s[i -j:i] in dict:
+                    f[i] = True 
+                    break
+        return f[n]

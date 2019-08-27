@@ -1,0 +1,81 @@
+"""
+https://www.lintcode.com/problem/solve-the-equation/description
+1113. Solve the Equation
+中文English
+Solve a given equation and return the value of x in the form of string "x=#value". The equation contains only '+', '-' operation, the variable x and its coefficient.
+
+If there is no solution for the equation, return "No solution".
+If there are infinite solutions for the equation, return "Infinite solutions".
+If there is exactly one solution for the equation, we ensure that the value of x is an integer.
+
+Example
+Example1
+
+Input: "x+5-3+x=6+x-2"
+Output: "x=2"
+Example2
+
+Input: "x=x"
+Output: "Infinite solutions"
+Example3
+
+Input: "2x=x"
+Output: "x=0"
+Example4
+
+Input: "2x+3x-6x=x+2"
+Output: "x=-1"
+Example5
+
+Input: "x=x+2"
+Output: "No solution"
+https://www.cnblogs.com/grandyang/p/7350578.html
+"""
+# https://www.jiuzhang.com/solution/solve-the-equation/#tag-highlight-lang-python
+# O(N) O(N)
+# to review 
+
+class Solution:
+    """
+    @param equation: a string
+    @return: return a string
+    """
+    def solveEquation(self, equation):
+        if equation is None or len(equation) == 0:
+            return "No solution"
+        
+        e = equation.split("=")
+        left_a, left_b = self.helper(e[0])
+        right_a, right_b = self.helper(e[1])
+        
+        if left_b == right_b and left_a == right_a:
+            return "Infinite solutions"
+        if left_a == right_a and left_b != right_b: 
+            return "No solution"
+        
+        result = int((right_b - left_b) / (left_a - right_a))    #  must be int 
+        return "x=" + str(result)  
+        
+    def helper(self, string):
+        a = 0 
+        b = 0 
+        sign = 1 
+        
+        num = 0 
+        for ch in string:
+            if ch.isdigit():
+                num = num * 10 + int(ch)
+            elif ch == "x":  
+                if num == 0:
+                    a += sign  
+                else:
+                    a += sign * num 
+                    num = 0 
+            else:
+                b += sign * num 
+                num = 0 
+                sign = 1 if ch == "+" else -1  
+        b += sign * num 
+        return a, b 
+                
+ 

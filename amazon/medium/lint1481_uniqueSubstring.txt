@@ -1,0 +1,53 @@
+"""
+https://www.lintcode.com/problem/unique-substring/description
+1481. Unique Substring
+中文English
+Given a string s, find all the unique substring with the length of k and sort the results in lexicographic order.
+
+Example
+Example 1:
+
+Input: s = "caaab"，k = 2
+Output:["aa","ab","ca"]
+Explanation:
+two adjacent lengths of strings are split and duplication removed
+Example 2:
+
+Input: s = "aaaa"，k = 3
+Output:["aaa"]
+Explanation:
+three adjacent lengths of strings are split and duplication removed
+
+"""
+
+# https://www.jiuzhang.com/solution/unique-substring/#tag-other-lang-python
+class Solution:
+    """
+    @param s: a string
+    @param k: an integer
+    @return: all unique substring
+    """
+    def uniqueSubstring(self, s, k):
+       return sorted(list(set(s[i:i+K] for i in range(len(s) - K +1))))
+        
+        
+#https://www.jiuzhang.com/solution/unique-substring/#tag-highlight-lang-python
+
+class Solution:
+    """
+    @param s: a string
+    @param k: an integer
+    @return: all unique substring
+    """
+    def uniqueSubstring(self, s, k):
+        # Write your code here
+        ans=set()
+        leng=len(s)
+        for i in range(leng) :
+            if leng-i>=k:
+                ans.add(s[i:i+k])
+            else :
+                break
+        res=list(ans)
+        res.sort()
+        return res

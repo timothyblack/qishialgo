@@ -1,0 +1,48 @@
+"""
+https://www.lintcode.com/problem/set-mismatch/description
+1112. Set Mismatch
+中文English
+The set S originally contains numbers from 1 to n. But unfortunately, due to the data error, one of the numbers in the set got duplicated to another number in the set, which results in repetition of one number and loss of another number.
+
+Given an array nums representing the data status of this set after the error. Your task is to firstly find the number occurs twice and then find the number that is missing. Return them in the form of an array.
+
+Example
+Example 1:
+
+Input: nums = [1,2,2,4]
+Output: [2,3]
+Explanation:
+2 is the number occurs twice, 3 is the missing number.
+Example 2:
+
+Input: nums = [1,3,3,4]
+Output: [3,2]
+Explanation:
+3 is the number occurs twice, 2 is the missing number.
+Notice
+1.The given array size will in the range [2, 10000].
+2.The given array's numbers won't have any order.
+
+设置一个vis数组，vis[i]用于标记数字i是否出现过。
+被重复标记的即为重复的数，未被标记的即为缺失的数。
+"""
+
+
+class Solution:
+    """
+    @param nums: an array
+    @return: the number occurs twice and the number that is missing
+    """
+    def findErrorNums(self, nums):
+        # store count in hash.
+        hash = {}
+        result = []
+        for num in nums: 
+            if num in hash: 
+                result.append(num)
+            hash[num] = 1 
+        
+        for i in range(1, len(nums) + 1):
+            if i not in hash:
+                result.append(i)
+        return result 

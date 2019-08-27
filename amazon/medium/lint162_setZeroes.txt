@@ -1,0 +1,78 @@
+"""
+https://www.lintcode.com/problem/set-matrix-zeroes/description
+162. Set Matrix Zeroes
+中文English
+Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in place.
+
+Example
+Example 1:
+
+Input:[[1,2],[0,3]]
+Output:[[0,2],[0,0]]
+Example 2:
+
+Input:[[1,2,3],[4,0,6],[7,8,9]]
+Output:[[1,0,3],[0,0,0],[7,0,9]]
+Challenge
+Did you use extra space?
+A straight forward solution using O(mn) space is probably a bad idea.
+A simple improvement uses O(m + n) space, but still not the best solution.
+Could you devise a constant space solution?
+
+
+https://www.jiuzhang.com/solution/set-matrix-zeroes/#tag-other
+http://fisherlei.blogspot.com/2013/01/leetcode-set-matrix-zeroes.html  
+m + n space -> row col record
+1 space -> mark it 在第一行 第一列 类似上面的方法
+先进行判断第一行/列 是否有零元素
+然后从第二行与第二列出发 mark回第一行/第一列
+把第二行与第二列之后的全部refresh
+最后把标记行第一行/第一列refresh
+
+O(1) space  
+
+"""
+
+class Solution:
+    """
+    @param matrix: A lsit of lists of integers
+    @return: nothing
+    """
+    def setZeroes(self, matrix): 
+        if not matrix or len(matrix) == 0 or len(matrix[0]) == 0:
+            return [] 
+        m, n = len(matrix), len(matrix[0])
+        zerorow, zerocol = False, False 
+        
+        for i in range(m):    #   m # of rows
+            if matrix[i][0] == 0: 
+                zerocol = True 
+                break 
+        for j in range(n):
+            if matrix[0][j] == 0: 
+                zerorow = True 
+                break
+        
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][j] == 0:
+                    matrix[i][0], matrix[0][j] = 0, 0 
+        
+        for i in range(1, m):
+            for j in range(1, n):
+                if matrix[i][0] == 0 or matrix[0][j] == 0:
+                    matrix[i][j] = 0 
+        
+        if zerocol: 
+            for i in range(m):
+                matrix[i][0] = 0
+        
+        if zerorow: 
+            for j in range(n):
+                matrix[0][j] = 0 
+        
+        return 
+        
+        
+        
+        

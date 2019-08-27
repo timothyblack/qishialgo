@@ -1,0 +1,55 @@
+"""
+
+https://blog.csdn.net/fuxuemingzhu/article/details/79557632
+
+"""
+
+
+#  BFS level order traversal .  keep last element in each level 
+
+class Solution:
+    """
+    @param root: the root of the given tree
+    @return: the values of the nodes you can see ordered from top to bottom
+    """
+    def rightSideView(self, root): 
+        if not root: return [] 
+        queue = collections.deque([root])
+        res = []
+        while queue: 
+            res.append(queue[-1].val)
+            for i in range(len(queue)):
+                node = queue.popleft()
+                if node.left: 
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+        return res
+# DFS
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: the root of the given tree
+    @return: the values of the nodes you can see ordered from top to bottom
+    """
+    # return last element in each level of level order traversal  
+    def rightSideView(self, root):
+        res = [] 
+        self.levelOrder(root, 0, res)
+        return [level[-1] for level in res]  
+    
+    def levelOrder(self, root, level, res):
+        if not root: return 
+        if len(res) == level: res.append([])
+        res[level].append(root.val)
+        if root.left: self.levelOrder(root.left, level + 1, res)
+        if root.right: self.levelOrder(root.right, level + 1, res)
+        
+        

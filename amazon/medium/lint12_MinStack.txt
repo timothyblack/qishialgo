@@ -1,0 +1,89 @@
+"""
+https://www.lintcode.com/problem/min-stack/description
+12. Min Stack
+中文English
+Implement a stack with following functions:
+
+push(val) push val into the stack
+pop() pop the top element and return it
+min() return the smallest number in the stack
+All above should be in O(1) cost.
+
+Example
+Example 1:
+
+Input:
+  push(1)
+  pop()
+  push(2)
+  push(3)
+  min()
+  push(1)
+  min()
+Output:
+  1
+  2
+  1
+Example 2:
+
+Input:
+  push(1)
+  min()
+  push(2)
+  min()
+  push(3)
+  min()
+Output:
+  1
+  1
+  1
+Notice
+min() will never be called when there is no number in the stack.
+
+
+"""
+
+
+
+"""
+https://www.jiuzhang.com/solution/min-stack/#tag-highlight-lang-python
+使用两个仅支持 pop 和 push 的栈就可以完成, stack 储存压入的数据, minStack 储存最小值.
+
+push 直接把元素压入 stack, 对于 minStack, 如果它为空则直接压入, 反之压入当前元素与 minStack 栈顶的最小值
+pop 两个栈都弹出一个元素, 返回 stack 弹出的元素
+min 返回 minStack 的栈顶
+还可以令 minStack 为单调栈, 即push时只有元素更小的时候才放入这个栈, 而pop时只有栈顶与stack栈顶相同时才弹出
+
+这样可以节约一定的空间, 但是实质上空间复杂度仍然是 O(n), 且多了一些判断, 并不一定更优
+"""
+class MinStack:
+    
+    def __init__(self):
+        # do intialization if necessary
+        self.stack = []
+        self.minstack = []
+    """
+    @param: number: An integer
+    @return: nothing
+    """
+    def push(self, number):
+        self.stack.append(number)
+        if len(self.minstack) == 0: 
+            self.minstack.append(number)
+        else:
+            self.minstack.append(min(number, self.minstack[-1]))
+
+    """
+    @return: An integer
+    """
+    def pop(self):
+        ret = self.stack[-1]
+        self.stack.pop()
+        self.minstack.pop() 
+        return ret 
+
+    """
+    @return: An integer
+    """
+    def min(self):
+        return self.minstack[-1] 

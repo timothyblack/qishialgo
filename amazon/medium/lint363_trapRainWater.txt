@@ -1,0 +1,51 @@
+"""
+363. Trapping Rain Water
+中文English
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+
+Trapping Rain Water
+
+Example
+Example 1:
+
+Input: [0,1,0]
+Output: 0
+Example 2:
+
+Input: [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Challenge
+O(n) time and O(1) memory
+
+O(n) time and O(n) memory is also acceptable.
+
+1. stack
+2, two pointer
+
+"""
+#  https://www.cnblogs.com/zuoyuan/p/3781453.html   
+class Solution:
+    """
+    @param heights: a list of integers
+    @return: a integer
+    """
+    def trapRainWater(self, heights):
+        if not heights: return 0 
+        n = len(heights)
+        leftmax_list = [0] * n
+        leftmax, rightmax = 0, 0
+        
+        for i in range(n):
+            leftmax = max(leftmax, heights[i])
+            leftmax_list[i] = leftmax
+        
+        water = 0 
+        for i in reversed(range(n)):
+            rightmax = max(rightmax, heights[i])
+            if min(rightmax, leftmax_list[i]) > heights[i]: 
+                water += min(rightmax, leftmax_list[i]) - heights[i] 
+        return water  
+
+"""
+https://www.jiuzhang.com/solution/trapping-rain-water/#tag-highlight-lang-python
+"""
